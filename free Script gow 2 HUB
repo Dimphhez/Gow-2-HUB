@@ -1,0 +1,243 @@
+--// To Grow a Garden 2 HUB
+--// Made by Dimph
+
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+
+local Player = Players.LocalPlayer
+
+--==================================================
+-- CONFIG
+--==================================================
+
+local KEY_URL = "[https://ganti-dengan-link-key-api-kamu]"
+
+-- Ganti ini kalau kamu ingin validasi key sendiri.
+-- Jangan menyimpan secret/API credential asli di LocalScript.
+local function CheckKey(key)
+    -- TODO: hubungkan ke sistem verifikasi key milikmu.
+    -- Contoh sementara:
+    return key ~= "" and #key >= 4
+end
+
+--==================================================
+-- GUI
+--==================================================
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "ToGrowAGarden2Hub"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = Player:WaitForChild("PlayerGui")
+
+local Main = Instance.new("Frame")
+Main.Name = "Main"
+Main.Size = UDim2.fromOffset(470, 270)
+Main.Position = UDim2.fromScale(0.5, 0.5)
+Main.AnchorPoint = Vector2.new(0.5, 0.5)
+Main.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
+Main.BorderSizePixel = 0
+Main.Parent = ScreenGui
+
+local Corner = Instance.new("UICorner")
+Corner.CornerRadius = UDim.new(0, 14)
+Corner.Parent = Main
+
+local Stroke = Instance.new("UIStroke")
+Stroke.Color = Color3.fromRGB(70, 70, 90)
+Stroke.Thickness = 1.2
+Stroke.Transparency = 0.2
+Stroke.Parent = Main
+
+--==================================================
+-- TITLE
+--==================================================
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, -30, 0, 35)
+Title.Position = UDim2.fromOffset(15, 15)
+Title.BackgroundTransparency = 1
+Title.Text = "To Grow a Garden 2 HUB"
+Title.TextColor3 = Color3.fromRGB(245, 245, 255)
+Title.TextSize = 22
+Title.Font = Enum.Font.GothamBold
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = Main
+
+local Credit = Instance.new("TextLabel")
+Credit.Size = UDim2.new(1, -30, 0, 22)
+Credit.Position = UDim2.fromOffset(16, 47)
+Credit.BackgroundTransparency = 1
+Credit.Text = "Made by Dimph"
+Credit.TextColor3 = Color3.fromRGB(145, 145, 165)
+Credit.TextSize = 13
+Credit.Font = Enum.Font.Gotham
+Credit.TextXAlignment = Enum.TextXAlignment.Left
+Credit.Parent = Main
+
+--==================================================
+-- KEY BOX
+--==================================================
+
+local KeyBox = Instance.new("TextBox")
+KeyBox.Size = UDim2.new(1, -40, 0, 45)
+KeyBox.Position = UDim2.fromOffset(20, 85)
+KeyBox.BackgroundColor3 = Color3.fromRGB(28, 28, 37)
+KeyBox.BorderSizePixel = 0
+KeyBox.PlaceholderText = "Masukkan kunci kamu..."
+KeyBox.PlaceholderColor3 = Color3.fromRGB(110, 110, 125)
+KeyBox.Text = ""
+KeyBox.TextColor3 = Color3.fromRGB(235, 235, 245)
+KeyBox.TextSize = 14
+KeyBox.Font = Enum.Font.Gotham
+KeyBox.ClearTextOnFocus = false
+KeyBox.Parent = Main
+
+local KeyCorner = Instance.new("UICorner")
+KeyCorner.CornerRadius = UDim.new(0, 9)
+KeyCorner.Parent = KeyBox
+
+--==================================================
+-- BUTTON FUNCTION
+--==================================================
+
+local function CreateButton(text, position)
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.fromOffset(205, 48)
+    Button.Position = position
+    Button.BackgroundColor3 = Color3.fromRGB(35, 35, 47)
+    Button.BorderSizePixel = 0
+    Button.Text = text
+    Button.TextColor3 = Color3.fromRGB(245, 245, 250)
+    Button.TextSize = 14
+    Button.Font = Enum.Font.GothamBold
+    Button.AutoButtonColor = false
+    Button.Parent = Main
+
+    local ButtonCorner = Instance.new("UICorner")
+    ButtonCorner.CornerRadius = UDim.new(0, 10)
+    ButtonCorner.Parent = Button
+
+    local ButtonStroke = Instance.new("UIStroke")
+    ButtonStroke.Color = Color3.fromRGB(70, 70, 90)
+    ButtonStroke.Transparency = 0.35
+    ButtonStroke.Parent = Button
+
+    Button.MouseEnter:Connect(function()
+        Button.BackgroundColor3 = Color3.fromRGB(50, 50, 66)
+    end)
+
+    Button.MouseLeave:Connect(function()
+        Button.BackgroundColor3 = Color3.fromRGB(35, 35, 47)
+    end)
+
+    return Button
+end
+
+local CheckButton = CreateButton(
+    "✓  Periksa Kunci",
+    UDim2.fromOffset(20, 145)
+)
+
+local CopyButton = CreateButton(
+    "🔗  Salin Tautan",
+    UDim2.fromOffset(245, 145)
+)
+
+--==================================================
+-- STATUS
+--==================================================
+
+local Status = Instance.new("TextLabel")
+Status.Size = UDim2.new(1, -40, 0, 25)
+Status.Position = UDim2.fromOffset(20, 205)
+Status.BackgroundTransparency = 1
+Status.Text = "Silakan masukkan kunci kamu."
+Status.TextColor3 = Color3.fromRGB(145, 145, 165)
+Status.TextSize = 13
+Status.Font = Enum.Font.Gotham
+Status.TextXAlignment = Enum.TextXAlignment.Center
+Status.Parent = Main
+
+--==================================================
+-- CHECK KEY
+--==================================================
+
+CheckButton.MouseButton1Click:Connect(function()
+    local Key = KeyBox.Text
+
+    if Key == "" then
+        Status.Text = "⚠ Masukkan kunci terlebih dahulu."
+        Status.TextColor3 = Color3.fromRGB(255, 190, 80)
+        return
+    end
+
+    Status.Text = "Memeriksa kunci..."
+    Status.TextColor3 = Color3.fromRGB(190, 190, 210)
+
+    task.wait(0.5)
+
+    if CheckKey(Key) then
+        Status.Text = "✓ Kunci diterima."
+        Status.TextColor3 = Color3.fromRGB(90, 220, 140)
+
+        -- Jalankan script utama kamu di sini.
+        -- loadstring(...)()
+    else
+        Status.Text = "✕ Kunci tidak valid."
+        Status.TextColor3 = Color3.fromRGB(255, 90, 90)
+    end
+end)
+
+--==================================================
+-- COPY LINK
+--==================================================
+
+CopyButton.MouseButton1Click:Connect(function()
+
+    -- Untuk environment yang menyediakan setclipboard.
+    if setclipboard then
+        setclipboard(KEY_URL:gsub("^%[", ""):gsub("%]$", ""))
+
+        Status.Text = "✓ Tautan berhasil disalin."
+        Status.TextColor3 = Color3.fromRGB(90, 220, 140)
+    else
+        Status.Text = "Salin tautan ini: " .. KEY_URL
+        Status.TextColor3 = Color3.fromRGB(255, 190, 80)
+    end
+end)
+
+--==================================================
+-- DRAG WINDOW
+--==================================================
+
+local Dragging = false
+local DragStart
+local StartPosition
+
+Title.InputBegan:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+        Dragging = true
+        DragStart = Input.Position
+        StartPosition = Main.Position
+
+        Input.Changed:Connect(function()
+            if Input.UserInputState == Enum.UserInputState.End then
+                Dragging = false
+            end
+        end)
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(Input)
+    if Dragging and Input.UserInputType == Enum.UserInputType.MouseMovement then
+
+        local Delta = Input.Position - DragStart
+
+        Main.Position = UDim2.new(
+            StartPosition.X.Scale,
+            StartPosition.X.Offset + Delta.X,
+            StartPosition.Y.Scale,
+            StartPosition.Y.Offset + Delta.Y
+        )
+    end
+end)
