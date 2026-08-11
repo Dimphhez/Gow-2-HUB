@@ -13,7 +13,7 @@ local Player = Players.LocalPlayer
 -- CONFIG
 --==================================================
 
-local KEY_LINK = "[https://ganti-link-key-kamu.com]"
+local KEY_LINK = "[https://raw.githubusercontent.com/Dimphhez/Gow-2-HUB/refs/heads/main/key.lua]"
 
 -- Untuk demo UI saja.
 -- Ganti dengan sistem verifikasi server milikmu sendiri
