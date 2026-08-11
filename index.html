@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To Grow a Garden 2 HUB</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  font-family:Arial,Helvetica,sans-serif;
+  background:radial-gradient(circle at top,#183622 0,#0c120e 45%,#070907 100%);
+  color:#f4fff6;padding:20px
+}
+.card{
+  width:min(460px,100%);padding:32px 24px;border:1px solid #2f5439;
+  border-radius:22px;background:rgba(14,22,16,.94);
+  box-shadow:0 20px 70px rgba(0,0,0,.45);text-align:center
+}
+.logo{font-size:48px;margin-bottom:10px}
+h1{font-size:26px;margin-bottom:7px}
+.creator{color:#91a997;font-size:13px;margin-bottom:24px}
+.desc{color:#c3d0c6;line-height:1.6;font-size:14px;margin-bottom:25px}
+.btn{
+  display:block;width:100%;padding:14px;margin:11px 0;border:0;border-radius:12px;
+  background:#2d8a4a;color:white;text-decoration:none;font-weight:700;
+  cursor:pointer;transition:.18s
+}
+.btn:hover{transform:translateY(-2px);background:#36a456}
+.btn.secondary{background:#202b23;border:1px solid #385440}
+.btn.secondary:hover{background:#29382d}
+.status{min-height:20px;margin-top:15px;color:#91a997;font-size:12px}
+.footer{margin-top:25px;color:#627368;font-size:11px}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="logo">🌱</div>
+  <h1>To Grow a Garden 2 HUB</h1>
+  <div class="creator">Made by Dimph</div>
+
+  <p class="desc">
+    Welcome to the official HUB page.<br>
+    Use the button below to access the public script file.
+  </p>
+
+  <a class="btn"
+     href="https://raw.githubusercontent.com/Dimphhez/Gow-2-HUB/refs/heads/main/main.lua"
+     target="_blank" rel="noopener">
+     🚀 Get Script
+  </a>
+
+  <button class="btn secondary" onclick="copyScript()">
+    📋 Copy Script Link
+  </button>
+
+  <div id="status" class="status"></div>
+
+  <div class="footer">
+    © 2026 Dimph — To Grow a Garden 2 HUB
+  </div>
+</main>
+
+<script>
+const scriptURL =
+"https://raw.githubusercontent.com/Dimphhez/Gow-2-HUB/refs/heads/main/main.lua";
+
+async function copyScript(){
+  const status=document.getElementById("status");
+  try{
+    await navigator.clipboard.writeText(scriptURL);
+    status.textContent="✓ Script link copied!";
+  }catch(e){
+    status.textContent="Copy failed. Please use Get Script.";
+  }
+}
+</script>
+</body>
+</html>
